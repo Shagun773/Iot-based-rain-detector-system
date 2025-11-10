@@ -1,0 +1,25 @@
+#include <Servo.h>
+
+Servo myservo;
+int rainSensor = 8; // digital pin connected to rain sensor DO
+int rainDetected = 0;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(9); // servo signal on pin 9
+  pinMode(rainSensor, INPUT);
+}
+
+void loop() {
+  rainDetected = digitalRead(rainSensor);
+
+  if (rainDetected == LOW) { // LOW = rain detected
+    Serial.println("🌧️ Rain detected!");
+    myservo.write(90);  // move servo to close cover
+  } else {
+    Serial.println("☀️ No rain.");
+    myservo.write(0);   // move servo back to open position
+  }
+
+  delay(1000);
+}
